@@ -22,6 +22,8 @@ export function ContactModal() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  // Honeypot — deve permanecer sempre vazio
+  const [website, setWebsite] = useState("");
 
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -40,7 +42,7 @@ export function ContactModal() {
     };
   }, [isOpen, close, status]);
 
-  // Reset do estado ao fechar
+  // Reset ao fechar
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
@@ -50,6 +52,7 @@ export function ContactModal() {
         setPhone("");
         setEmail("");
         setMessage("");
+        setWebsite("");
       }, 300);
     }
   }, [isOpen]);
@@ -63,7 +66,7 @@ export function ContactModal() {
       const response = await fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, email, message }),
+        body: JSON.stringify({ name, phone, email, message, website }),
       });
 
       const result = await response.json();
@@ -83,7 +86,6 @@ export function ContactModal() {
     }
   };
 
-  // WhatsApp com mensagem pré-preenchida
   const handleWhatsApp = () => {
     const text = encodeURIComponent(
       (name ? `Olá! Meu nome é ${name}.\n\n` : "Olá!\n\n") +
@@ -136,7 +138,7 @@ export function ContactModal() {
               </button>
             </div>
 
-            {/* ===== Estado: SUCCESS ===== */}
+            {/* ===== SUCCESS ===== */}
             {status === "success" ? (
               <div className="p-8 flex flex-col items-center text-center">
                 <motion.div
@@ -164,11 +166,34 @@ export function ContactModal() {
                 </button>
               </div>
             ) : (
-              /* ===== Estado: FORM ===== */
+              /* ===== FORM ===== */
               <form
                 onSubmit={handleSubmit}
                 className="p-6 space-y-5 overflow-y-auto"
               >
+                {/* Honeypot — invisível para humanos, visível para bots */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    left: "-9999px",
+                    width: "1px",
+                    height: "1px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <label htmlFor="website">Não preencha este campo</label>
+                  <input
+                    id="website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                </div>
+
                 {/* Erro geral */}
                 {status === "error" && errorMessage && (
                   <motion.div
@@ -251,7 +276,7 @@ export function ContactModal() {
                   />
                 </div>
 
-                {/* Botão Enviar (e-mail) */}
+                {/* Enviar */}
                 <button
                   type="submit"
                   disabled={isSending}
@@ -270,7 +295,7 @@ export function ContactModal() {
                   )}
                 </button>
 
-                {/* ===== Divisor ===== */}
+                {/* Divisor */}
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t border-gray-200 dark:border-gray-800" />
@@ -282,7 +307,7 @@ export function ContactModal() {
                   </div>
                 </div>
 
-                {/* ===== Botão WhatsApp ===== */}
+                {/* WhatsApp */}
                 <button
                   type="button"
                   onClick={handleWhatsApp}
