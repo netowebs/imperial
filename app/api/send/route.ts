@@ -1,14 +1,22 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: Request) {
   try {
+    const apiKey = process.env.RESEND_API_KEY;
+
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: 'Configuração de e-mail ausente no servidor.' },
+        { status: 500 }
+      );
+    }
+
+    const resend = new Resend(apiKey);
+
     const body = await request.json();
     const { name, phone, email, message } = body;
 
-    // Validação básica dos dados
     if (!name || !message) {
       return NextResponse.json(
         { error: 'Nome e mensagem são obrigatórios.' },
@@ -17,12 +25,10 @@ export async function POST(request: Request) {
     }
 
     const { data, error } = await resend.emails.send({
-      // Use o domínio que você já verificou no Resend (ex: noreply@autopostoimperial.com.br)
-      from: 'Auto Posto Imperial <onboarding@resend.dev>',
-      // O e-mail comercial que receberá as mensagens
+      from: 'Auto Posto Imperial <contato@autopostoimperial.com.br>',
       to: ['comercial@autopostoimperial.com.br'],
-      subject: `Contato do site - ${name}`,
-      replyTo: email || undefined, // Permite responder direto para o cliente
+      subject: `Novo contato do site - ${name}`,
+      replyTo: email || undefined,
       html: `
         <h2>Nova mensagem recebida</h2>
         <p><strong>Nome:</strong> ${name}</p>
