@@ -24,10 +24,10 @@ const units: Unit[] = [
     name: "Unidade I",
     number: "01",
     active: true,
-    address: "Avenida Justino Vieira, 203 - Vila Rica, Itaí/SP",
+    address: "Avenida Justino Vieira, 203 — Vila Rica, Itaí/SP",
     phone: "(14) 9.9640-5590",
     phoneHref: "tel:+5514996405590",
-    hours: "Segunda a Domingo - consulte-nos pelo telefone.",
+    hours: "Segunda a Domingo — consulte-nos pelo telefone.",
     mapsUrl: "https://maps.app.goo.gl/9XjuN3WBjor8hSCU7",
     embedUrl:
       "https://www.google.com/maps?q=Avenida+Justino+Vieira,+203,+Vila+Rica,+Itaí+-+SP&output=embed",
@@ -44,7 +44,7 @@ const units: Unit[] = [
     mapsUrl: "",
     embedUrl: "",
     teaser:
-      "A Unidade II já está sendo construída. Mais espaço, mais serviços e a mesma qualidade de sempre. Fique de olho!",
+      "A nova unidade já está em construção. Mais estrutura, mais conforto e a mesma qualidade que você conhece. Aguarde novidades!",
   },
 ];
 
@@ -81,8 +81,22 @@ export function FuelStation() {
       className="py-16 md:py-20 bg-blue-900 dark:bg-black text-white scroll-mt-24 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4">
-        {/* ===== Cabeçalho ===== */}
+        {/* Cabeçalho */}
         <div className="text-center mb-10 md:mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-3 mb-4"
+          >
+            <span className="w-8 h-[2px] bg-yellow-400" />
+            <span className="text-yellow-400 text-[11px] font-bold uppercase tracking-[0.3em]">
+              Onde estamos
+            </span>
+            <span className="w-8 h-[2px] bg-yellow-400" />
+          </motion.div>
+
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-3 tracking-tight">
             Venha nos Visitar
           </h2>
@@ -91,7 +105,7 @@ export function FuelStation() {
           </p>
         </div>
 
-        {/* ===== Seletor (abas) ===== */}
+        {/* Seletor (abas) */}
         <div className="flex items-end justify-center gap-10 md:gap-16 mb-10 md:mb-12">
           {units.map((unit, index) => {
             const isActive = index === activeIndex;
@@ -153,10 +167,10 @@ export function FuelStation() {
           })}
         </div>
 
-        {/* ===== Conteúdo ===== */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        {/* Conteúdo */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-w-0">
           {/* Texto */}
-          <div className="relative min-h-[440px]">
+          <div className="relative min-h-[440px] min-w-0 overflow-hidden">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={activeUnit.id}
@@ -174,7 +188,7 @@ export function FuelStation() {
                 {!isComingSoon ? (
                   <>
                     <p className="text-yellow-400 text-xs uppercase tracking-[0.28em] font-bold mb-3">
-                      Auto Posto Imperial - {activeUnit.name}
+                      Auto Posto Imperial — {activeUnit.name}
                     </p>
                     <p className="text-blue-100/90 mb-8 text-lg leading-relaxed max-w-lg">
                       O Auto Posto Imperial está localizado em um ponto
@@ -182,7 +196,6 @@ export function FuelStation() {
                       a qualidade Ipiranga, tomar um café e cuidar do seu carro.
                     </p>
 
-                    {/* Botão Iniciar Rota */}
                     <a
                       href={activeUnit.mapsUrl}
                       target="_blank"
@@ -194,7 +207,10 @@ export function FuelStation() {
                         className="fill-blue-950 group-hover:translate-x-0.5 transition-transform"
                       />
                       Iniciar Rota
-
+                      <span className="w-px h-4 bg-blue-950/30 ml-1" />
+                      <span className="text-[10px] font-semibold normal-case tracking-normal opacity-80">
+                        Google Maps
+                      </span>
                     </a>
 
                     <div className="space-y-6">
@@ -245,7 +261,6 @@ export function FuelStation() {
                     </div>
                   </>
                 ) : (
-                  /* ===== Estado "Em breve" ===== */
                   <>
                     <div className="inline-flex items-center gap-3 mb-6 px-3 py-2 rounded-[3px] border border-yellow-400/40 bg-yellow-400/5">
                       <span className="relative flex h-1.5 w-1.5">
@@ -261,7 +276,7 @@ export function FuelStation() {
                       Algo novo está chegando
                     </h3>
                     <p className="text-yellow-400 text-xs uppercase tracking-[0.28em] font-bold mb-5">
-                      Auto Posto Imperial - {activeUnit.name}
+                      Auto Posto Imperial — {activeUnit.name}
                     </p>
 
                     <p className="text-blue-100/90 mb-8 text-lg leading-relaxed max-w-lg">
@@ -278,7 +293,8 @@ export function FuelStation() {
                             Novidades
                           </h4>
                           <p className="text-white/80 text-base leading-relaxed">
-                            Estrutura ampliada, novos serviços e atendimento de sempre.
+                            Estrutura ampliada, novos serviços e atendimento de
+                            sempre.
                           </p>
                         </div>
                       </div>
@@ -303,8 +319,8 @@ export function FuelStation() {
             </AnimatePresence>
           </div>
 
-          {/* Lado direito: mapa ou placeholder */}
-          <div className="relative h-96 w-full">
+          {/* Mapa ou placeholder */}
+          <div className="relative h-96 w-full min-w-0">
             <AnimatePresence mode="wait">
               {!isComingSoon ? (
                 <motion.div

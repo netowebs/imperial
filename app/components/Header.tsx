@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, Home, Wrench, Fuel, Mail } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { useContactModal } from "./contexts/ContactModalContext";
 
@@ -27,6 +27,35 @@ function InstagramIcon({
       <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
       <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
+// Ícone de caneca de chopp (não existe no Lucide, criamos inline)
+function BeerMugIcon({
+  size = 20,
+  className = "",
+}: {
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M17 11h1a3 3 0 0 1 0 6h-1" />
+      <path d="M9 12v6" />
+      <path d="M13 12v6" />
+      <path d="M14 7H8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z" />
+      <path d="M8 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
     </svg>
   );
 }
@@ -63,10 +92,15 @@ export function Header() {
   }, []);
 
   const navLinks = [
-    { name: "Início", href: "#home", id: "home" },
-    { name: "Serviços", href: "#services", id: "services" },
-    { name: "Conveniência", href: "#convenience", id: "convenience" },
-    { name: "Posto", href: "#station", id: "station" },
+    { name: "Início", href: "#home", id: "home", icon: Home },
+    { name: "Serviços", href: "#services", id: "services", icon: Wrench },
+    {
+      name: "Conveniência",
+      href: "#convenience",
+      id: "convenience",
+      icon: BeerMugIcon,
+    },
+    { name: "Posto", href: "#station", id: "station", icon: Fuel },
   ];
 
   return (
@@ -217,32 +251,46 @@ export function Header() {
           isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <nav className="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 px-6 py-5 flex flex-col gap-1 shadow-2xl">
+        <nav className="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 px-4 py-4 flex flex-col gap-1 shadow-2xl">
           {navLinks.map((link) => {
             const isActive = activeSection === link.id;
+            const Icon = link.icon;
             return (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className={`px-4 py-3.5 rounded-md text-[13px] font-semibold uppercase tracking-[0.12em] transition-colors ${
+                className={`group flex items-center gap-4 px-4 py-3.5 rounded-md text-[13px] font-semibold uppercase tracking-[0.12em] transition-all ${
                   isActive
                     ? "bg-yellow-400/10 text-blue-950 dark:text-yellow-400 border-l-2 border-yellow-400"
                     : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 border-l-2 border-transparent"
                 }`}
               >
+                <span
+                  className={`flex items-center justify-center w-9 h-9 rounded-md transition-colors ${
+                    isActive
+                      ? "bg-yellow-400 text-blue-950"
+                      : "bg-gray-100 dark:bg-gray-900 text-gray-500 dark:text-gray-400 group-hover:bg-yellow-400 group-hover:text-blue-950"
+                  }`}
+                >
+                  <Icon size={17} />
+                </span>
                 {link.name}
               </a>
             );
           })}
 
+          {/* Fale Conosco com ícone de carta */}
           <button
             onClick={() => {
               setIsOpen(false);
               openContact();
             }}
-            className="px-4 py-3.5 rounded-md text-[13px] font-semibold uppercase tracking-[0.12em] transition-colors text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 border-l-2 border-transparent text-left cursor-pointer"
+            className="group flex items-center gap-4 px-4 py-3.5 rounded-md text-[13px] font-semibold uppercase tracking-[0.12em] transition-all text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 border-l-2 border-transparent cursor-pointer text-left"
           >
+            <span className="flex items-center justify-center w-9 h-9 rounded-md transition-colors bg-gray-100 dark:bg-gray-900 text-gray-500 dark:text-gray-400 group-hover:bg-yellow-400 group-hover:text-blue-950">
+              <Mail size={17} />
+            </span>
             Fale Conosco
           </button>
         </nav>

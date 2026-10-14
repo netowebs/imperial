@@ -1,20 +1,35 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, MapPin } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, MapPin, ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { useRef } from "react";
 import { useIsOpen } from "../hooks/useIsOpen";
 
 export function Hero() {
   const isOpen = useIsOpen();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Parallax: a imagem se move mais devagar que o conteúdo
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0, 0.4]);
 
   return (
     <section
+      ref={sectionRef}
       id="home"
       className="relative min-h-[85vh] md:min-h-screen flex items-center overflow-hidden"
     >
-      {/* Background */}
-      <div className="absolute inset-0 z-0">
+      {/* Background com parallax */}
+      <motion.div
+        style={{ y: imageY }}
+        className="absolute inset-0 z-0 will-change-transform"
+      >
         <Image
           src="/images/posto-bg.webp"
           alt="Fachada do Auto Posto Imperial"
@@ -24,7 +39,11 @@ export function Hero() {
           className="object-cover object-left md:object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-blue-950/90 via-blue-900/70 to-blue-900/40 dark:from-black/95 dark:via-black/80 dark:to-black/50" />
-      </div>
+        <motion.div
+          style={{ opacity: overlayOpacity }}
+          className="absolute inset-0 bg-blue-950 pointer-events-none"
+        />
+      </motion.div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 z-10 w-full py-24 md:py-28">
         <div className="max-w-3xl">
@@ -100,6 +119,26 @@ export function Hero() {
           </motion.div>
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.a
+        href="#services"
+        aria-label="Rolar para serviços"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.2 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 text-white/60 hover:text-yellow-400 transition-colors group"
+      >
+        <span className="text-[10px] uppercase tracking-[0.3em] font-semibold">
+          Role
+        </span>
+        <motion.span
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={18} />
+        </motion.span>
+      </motion.a>
     </section>
   );
 }
