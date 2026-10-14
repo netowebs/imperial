@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Fuel, Droplets, ShoppingBag } from "lucide-react";
+import Image from "next/image";
 
 const services = [
   {
@@ -9,19 +10,24 @@ const services = [
     title: "Abastecimento",
     desc: "Gasolina, Etanol e Diesel com a qualidade e confiança da bandeira Ipiranga.",
     highlight: true,
-    badge: "Bandeira Ipiranga",
+    image: "/images/servicos/abastecimento.webp",
+    position: "object-center",
   },
   {
     icon: Droplets,
     title: "Troca de Óleo",
     desc: "Lubrificantes e filtros de alta performance, com troca rápida e segura.",
     highlight: false,
+    image: "/images/servicos/troca-oleo.webp",
+    position: "object-center",
   },
   {
     icon: ShoppingBag,
     title: "Conveniência",
     desc: "Produtos variados, bebidas geladas e snacks para sua viagem.",
     highlight: false,
+    image: "/images/servicos/conveniencia.webp",
+    position: "object-top-right",
   },
 ];
 
@@ -59,7 +65,7 @@ export function Services() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service, index) => (
             <motion.div
               key={index}
@@ -67,32 +73,55 @@ export function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative p-8 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border group ${
-                service.highlight
-                  ? "bg-white dark:bg-gray-900 border-yellow-400/60 ring-1 ring-yellow-400/30"
-                  : "bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-800 hover:border-yellow-400/40"
-              }`}
+              className="group relative h-[400px] md:h-[460px] overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
             >
-              {service.badge && (
-                <span className="absolute -top-3 left-8 inline-block px-3 py-1 rounded-md bg-yellow-400 text-blue-950 text-[10px] font-bold uppercase tracking-widest">
-                  {service.badge}
-                </span>
-              )}
+              {/* Imagem de fundo */}
+              <Image
+                src={service.image}
+                alt={service.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className={`object-cover ${service.position} transition-transform duration-700 group-hover:scale-105`}
+              />
 
+              {/* Scrim inferior mais alto e mais forte */}
+              <div className="absolute inset-x-0 bottom-0 h-4/5 bg-gradient-to-t from-black/95 via-black/70 via-40% to-transparent z-[1]" />
+
+              {/* Ícone no topo */}
               <div
-                className={`w-14 h-14 rounded-full flex items-center justify-center mb-6 transition-all duration-300 ${
+                className={`absolute top-5 left-5 w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-500 z-10 ${
                   service.highlight
                     ? "bg-yellow-400 text-blue-950"
-                    : "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:bg-yellow-400 group-hover:text-blue-900 group-hover:rotate-6"
+                    : "bg-white/95 backdrop-blur-sm text-blue-900 group-hover:bg-yellow-400 group-hover:text-blue-950"
                 }`}
               >
-                <service.icon size={28} />
+                <service.icon
+                  size={26}
+                  className="transition-transform duration-500 group-hover:scale-110"
+                />
               </div>
 
-              <h3 className="text-xl font-bold mb-3 text-gray-800 dark:text-gray-100">
-                {service.title}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">{service.desc}</p>
+              {/* Texto sobre a imagem */}
+              <div className="absolute bottom-0 left-0 right-0 p-7 md:p-8 z-10">
+                <h3
+                  className="text-2xl md:text-[28px] font-extrabold text-white mb-3 tracking-tight leading-[1.15]"
+                  style={{
+                    textShadow: "0 2px 12px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.4)",
+                  }}
+                >
+                  {service.title}
+                </h3>
+
+                {/* Linha amarela como sublinhado do título */}
+                <span className="block w-12 h-[3px] bg-yellow-400 rounded-full mb-4" />
+
+                <p
+                  className="text-white/95 leading-relaxed text-sm md:text-base font-medium"
+                  style={{ textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}
+                >
+                  {service.desc}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
