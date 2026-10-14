@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, Home, Wrench, Fuel, Mail } from "lucide-react";
+import { Menu, X, Phone, Home, Wrench, Fuel, Mail, Lock } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { useContactModal } from "./contexts/ContactModalContext";
 
@@ -31,7 +31,6 @@ function InstagramIcon({
   );
 }
 
-// Ícone de caneca de chopp (não existe no Lucide, criamos inline)
 function BeerMugIcon({
   size = 20,
   className = "",
@@ -102,6 +101,8 @@ export function Header() {
     },
     { name: "Posto", href: "#station", id: "station", icon: Fuel },
   ];
+
+  const WEBMAIL_URL = "https://webmail.autopostoimperial.com.br";
 
   return (
     <header className="fixed top-0 w-full z-50">
@@ -216,8 +217,23 @@ export function Header() {
               Fale Conosco
             </button>
 
+            {/* Webmail */}
+            <a
+              href={WEBMAIL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`ml-3 inline-flex items-center gap-2 px-4 py-2 rounded-md text-[12px] font-bold uppercase tracking-[0.14em] border transition-all duration-200 ${
+                scrolled
+                  ? "border-blue-950/20 dark:border-yellow-400/30 text-blue-950 dark:text-yellow-400 hover:bg-blue-950 hover:text-white dark:hover:bg-yellow-400 dark:hover:text-blue-950"
+                  : "border-white/30 text-white hover:bg-yellow-400 hover:text-blue-950 hover:border-yellow-400"
+              }`}
+            >
+              <Lock size={13} />
+              Webmail
+            </a>
+
             <div
-              className={`ml-5 pl-5 border-l transition-colors duration-300 ${
+              className={`ml-4 pl-4 border-l transition-colors duration-300 ${
                 scrolled
                   ? "border-gray-300/70 dark:border-gray-700/70"
                   : "border-white/20"
@@ -248,7 +264,7 @@ export function Header() {
       {/* Mobile Nav */}
       <div
         className={`lg:hidden overflow-hidden transition-all duration-500 ease-out ${
-          isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <nav className="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 px-4 py-4 flex flex-col gap-1 shadow-2xl">
@@ -280,7 +296,6 @@ export function Header() {
             );
           })}
 
-          {/* Fale Conosco com ícone de carta */}
           <button
             onClick={() => {
               setIsOpen(false);
@@ -293,6 +308,19 @@ export function Header() {
             </span>
             Fale Conosco
           </button>
+
+          <a
+            href={WEBMAIL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setIsOpen(false)}
+            className="group flex items-center gap-4 px-4 py-3.5 rounded-md text-[13px] font-semibold uppercase tracking-[0.12em] transition-all text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 border-l-2 border-transparent"
+          >
+            <span className="flex items-center justify-center w-9 h-9 rounded-md transition-colors bg-gray-100 dark:bg-gray-900 text-gray-500 dark:text-gray-400 group-hover:bg-yellow-400 group-hover:text-blue-950">
+              <Lock size={16} />
+            </span>
+            Webmail
+          </a>
         </nav>
       </div>
     </header>
