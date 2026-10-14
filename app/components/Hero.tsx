@@ -11,7 +11,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[90vh] md:min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-[85vh] md:min-h-screen flex items-center overflow-hidden"
     >
       {/* Background */}
       <div className="absolute inset-0 z-0">
@@ -20,18 +20,19 @@ export function Hero() {
           alt="Fachada do Auto Posto Imperial"
           fill
           priority
-          className="object-cover"
+          sizes="100vw"
+          className="object-cover object-left md:object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-blue-950/90 via-blue-900/70 to-blue-900/40 dark:from-black/95 dark:via-black/80 dark:to-black/50" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 z-10 w-full py-28">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 z-10 w-full py-24 md:py-28">
         <div className="max-w-3xl">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight text-white mb-6"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight text-white mb-6"
           >
             Qualidade que
             <br />
@@ -42,7 +43,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg md:text-xl text-blue-100 max-w-xl mb-10 leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-blue-100 max-w-xl mb-10 leading-relaxed"
           >
             Combustível Ipiranga, conveniência completa e troca de óleo no
             mesmo lugar.
@@ -56,7 +57,7 @@ export function Hero() {
           >
             <a
               href="#services"
-              className="group inline-flex items-center gap-3 bg-yellow-400 hover:bg-yellow-300 text-blue-950 font-bold text-sm md:text-base uppercase tracking-wider px-8 py-4 rounded-md shadow-lg shadow-yellow-400/20 transition-all hover:shadow-xl hover:shadow-yellow-400/30 hover:-translate-y-0.5"
+              className="group inline-flex items-center gap-3 bg-yellow-400 hover:bg-yellow-300 text-blue-950 font-bold text-xs sm:text-sm md:text-base uppercase tracking-wider px-6 sm:px-8 py-3.5 sm:py-4 rounded-md shadow-lg shadow-yellow-400/20 transition-all hover:shadow-xl hover:shadow-yellow-400/30 hover:-translate-y-0.5"
             >
               Nossos Serviços
               <ArrowRight
@@ -67,7 +68,7 @@ export function Hero() {
 
             <a
               href="#station"
-              className="group inline-flex items-center gap-3 border border-white/40 hover:border-white text-white font-semibold text-sm md:text-base uppercase tracking-wider px-8 py-4 rounded-md backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-all"
+              className="group inline-flex items-center gap-3 border border-white/40 hover:border-white text-white font-semibold text-xs sm:text-sm md:text-base uppercase tracking-wider px-6 sm:px-8 py-3.5 sm:py-4 rounded-md backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-all"
             >
               <MapPin size={18} />
               Como Chegar
@@ -78,25 +79,22 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="flex flex-wrap items-center gap-x-8 gap-y-3 mt-14 pt-8 border-t border-white/15"
+            className="flex flex-wrap items-center gap-x-6 md:gap-x-8 gap-y-3 mt-10 md:mt-14 pt-6 md:pt-8 border-t border-white/15"
           >
-            {/* Status aberto/fechado */}
             {isOpen !== null && (
               <div className="flex items-center gap-2">
                 <span
                   className={`w-2 h-2 rounded-full ${
-                    isOpen
-                      ? "bg-green-400 animate-pulse"
-                      : "bg-gray-400"
+                    isOpen ? "bg-green-400 animate-pulse" : "bg-gray-400"
                   }`}
                 />
-                <span className="text-white/80 text-sm font-medium">
-                  {isOpen ? "Aberto agora" : "Fechado Agora"}
+                <span className="text-white/80 text-xs sm:text-sm font-medium">
+                  {isOpen ? "Aberto agora" : "Fechado agora"}
                 </span>
               </div>
             )}
 
-            <div className="text-white/80 text-sm font-medium">
+            <div className="text-white/80 text-xs sm:text-sm font-medium">
               Combustível • Conveniência • Troca de Óleo
             </div>
           </motion.div>
