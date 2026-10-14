@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
+  --color-primary: #1e40af;
+  --color-primary-foreground: #f8fafc;
+  --color-secondary: #eab308;
+  --color-secondary-foreground: #1e293b;
+}
+
+.dark {
+  --color-background: #0a0a0a;
+  --color-foreground: #f8fafc;
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #0f172a;
+  --color-secondary: #eab308;
+  --color-secondary-foreground: #f8fafc;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
